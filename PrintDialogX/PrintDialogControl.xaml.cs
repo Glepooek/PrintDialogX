@@ -59,15 +59,7 @@ namespace PrintDialogX
                 public void Reset(IEnumerable<T?> items, T fallback)
                 {
                     Clear();
-                    foreach (T item in items.OfType<T>())
-                    {
-                        if (Contains(item))
-                        {
-                            continue;
-                        }
-
-                        Add(item);
-                    }
+                    AddRange(items.OfType<T>().Distinct());
                     if (Count <= 0)
                     {
                         Add(fallback);

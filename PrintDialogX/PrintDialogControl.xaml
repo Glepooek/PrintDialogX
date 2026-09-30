@@ -27,7 +27,7 @@
             <internal:ComparisonToStateConverter x:Key="{x:Static Member=internal:ConverterResource.ThresholdToVisibility}" Mode="Threshold" StateTrue="{x:Static Member=Visibility.Visible}" StateFalse="{x:Static Member=Visibility.Collapsed}" />
             <internal:CollectionToRangeConverter x:Key="{x:Static Member=internal:ConverterResource.CollectionToRange}" />
             <internal:CollectionToBooleanConverter x:Key="{x:Static Member=internal:ConverterResource.CollectionToBoolean}" />
-            <internal:PrinterToIconConverter x:Key="{x:Static Member=internal:ConverterResource.PrinterToIcon}" SizeSmall="16" SizeLarge="32" />
+            <internal:PrinterToIconConverter x:Key="{x:Static Member=internal:ConverterResource.PrinterToIcon}" SizeSmall="16" SizeLarge="32" OpacityNormal="1" OpacityDisabled="0.5" />
             <internal:PrinterToStatusConverter x:Key="{x:Static Member=internal:ConverterResource.PrinterToStatus}" />
             <internal:PrinterToDescriptionConverter x:Key="{x:Static Member=internal:ConverterResource.PrinterToDescription}" />
             <internal:SizeToDescriptionConverter x:Key="{x:Static Member=internal:ConverterResource.SizeToDescription}" />

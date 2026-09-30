@@ -18,7 +18,7 @@
 
 ## Dependencies
 
-- [WPF-UI](https://github.com/lepoco/wpfui) ≥ 4.3.0, < 5.0.0
+- [WPF-UI](https://www.nuget.org/packages/WPF-UI) ≥ 4.3.0, < 5.0.0
 
 ## Versioning
 

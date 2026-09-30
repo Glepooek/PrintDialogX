@@ -273,7 +273,7 @@ namespace PrintDialogX.Internal
         private struct N_IconInfo
         {
             public uint Size;
-            public IntPtr Icon;
+            public nint Icon;
             public int SystemIndex;
             public int ResourceIndex;
 
@@ -285,7 +285,7 @@ namespace PrintDialogX.Internal
         private static extern int N_GetIcon(uint index, uint flags, ref N_IconInfo info);
 
         [DllImport("user32.dll", EntryPoint = "DestroyIcon")]
-        private static extern bool N_ReleaseIcon(IntPtr icon);
+        private static extern bool N_ReleaseIcon(nint icon);
 
         internal sealed class Icon(ImageSource? source, string name, double opacity, double size)
         {
@@ -296,6 +296,7 @@ namespace PrintDialogX.Internal
         }
 
         public const int RESULT_SUCCESS = 0;
+        public const nint POINTER_NULL = 0;
         public const uint INDEX_PRINTER = 16u;
         public const uint INDEX_PRINTER_NETWORK = 50u;
         public const uint INDEX_PRINTER_FILE = 54u;
@@ -311,6 +312,8 @@ namespace PrintDialogX.Internal
 
         public double SizeSmall { get; set; } = 0;
         public double SizeLarge { get; set; } = 0;
+        public double OpacityNormal { get; set; } = 1;
+        public double OpacityDisabled { get; set; } = 1;
         public PrintQueueCollection CollectionFax { get; set; } = [];
         public PrintQueueCollection CollectionNetwork { get; set; } = [];
 
@@ -339,7 +342,7 @@ namespace PrintDialogX.Internal
                     {
                         Size = (uint)Marshal.SizeOf<N_IconInfo>()
                     };
-                    if (N_GetIcon(index, FLAG_RECEIVE_ICON | (isSmall ? FLAG_SIZE_SMALL : FLAG_SIZE_LARGE), ref info) == RESULT_SUCCESS && info.Icon != IntPtr.Zero)
+                    if ((N_GetIcon(index, FLAG_RECEIVE_ICON | (isSmall ? FLAG_SIZE_SMALL : FLAG_SIZE_LARGE), ref info), info.Icon) is (RESULT_SUCCESS, not POINTER_NULL))
                     {
                         source = Common.Freeze(Imaging.CreateBitmapSourceFromHIcon(info.Icon, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions()));
                         CACHE[key] = source;
@@ -353,7 +356,7 @@ namespace PrintDialogX.Internal
             {
                 printer.Refresh();
                 return printer.IsOffline;
-            }, true) ? 0.5 : 1, isSmall ? SizeSmall : SizeLarge);
+            }, true) ? OpacityDisabled : OpacityNormal, isSmall ? SizeSmall : SizeLarge);
         }
 
         public object ConvertBack(object value, Type type, object parameter, CultureInfo culture)
